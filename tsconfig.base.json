@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@dxl-angsp/xlsx-temp/data-access": [
+        "libs/xlsx-temp/data-access/src/index.ts"
+      ],
+      "@dxl-angsp/xlsx-temp/feature": ["libs/xlsx-temp/feature/src/index.ts"],
+      "@dxl-angsp/xlsx-temp/shell": ["libs/xlsx-temp/shell/src/index.ts"],
+      "@dxl-angsp/xlsx-temp/ui": ["libs/xlsx-temp/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

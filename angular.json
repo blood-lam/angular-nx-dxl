@@ -18,8 +18,14 @@
             "tsConfig": "apps/blood/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["apps/blood/src/favicon.ico", "apps/blood/src/assets"],
-            "styles": ["apps/blood/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "apps/blood/src/styles.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/xlsx-temp/ui/src/lib/scss"]
+            }
           },
           "configurations": {
             "production": {
@@ -116,9 +122,110 @@
           }
         }
       }
+    },
+    "xlsx-temp-data-access": {
+      "projectType": "library",
+      "root": "libs/xlsx-temp/data-access",
+      "sourceRoot": "libs/xlsx-temp/data-access/src",
+      "prefix": "dxl-angsp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/xlsx-temp/data-access"],
+          "options": {
+            "jestConfig": "libs/xlsx-temp/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/xlsx-temp/data-access/src/**/*.ts",
+              "libs/xlsx-temp/data-access/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "xlsx-temp-feature": {
+      "projectType": "library",
+      "root": "libs/xlsx-temp/feature",
+      "sourceRoot": "libs/xlsx-temp/feature/src",
+      "prefix": "dxl-angsp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/xlsx-temp/feature"],
+          "options": {
+            "jestConfig": "libs/xlsx-temp/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/xlsx-temp/feature/src/**/*.ts",
+              "libs/xlsx-temp/feature/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "xlsx-temp-shell": {
+      "projectType": "library",
+      "root": "libs/xlsx-temp/shell",
+      "sourceRoot": "libs/xlsx-temp/shell/src",
+      "prefix": "dxl-angsp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/xlsx-temp/shell"],
+          "options": {
+            "jestConfig": "libs/xlsx-temp/shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/xlsx-temp/shell/src/**/*.ts",
+              "libs/xlsx-temp/shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "xlsx-temp-ui": {
+      "projectType": "library",
+      "root": "libs/xlsx-temp/ui",
+      "sourceRoot": "libs/xlsx-temp/ui/src",
+      "prefix": "dxl-angsp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/xlsx-temp/ui"],
+          "options": {
+            "jestConfig": "libs/xlsx-temp/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/xlsx-temp/ui/src/**/*.ts",
+              "libs/xlsx-temp/ui/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
+    "analytics": "3e87639e-a4aa-4506-9515-131b30090981",
     "defaultCollection": "@nrwl/angular"
   },
   "schematics": {

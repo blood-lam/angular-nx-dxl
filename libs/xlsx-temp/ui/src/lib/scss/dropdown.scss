@@ -1,0 +1,37 @@
+dxl-angsp-xlsx-temp-shell {
+    .mat-select-value {
+        display: block;
+        min-width: fit-content;
+    }
+    .mat-form-field-appearance-outline {
+        .mat-form-field-outline-end {
+            border-radius: 0 24px 24px 0;
+        }
+
+        .mat-form-field-infix {
+            padding: .5em 0 1em 0;
+            width: auto
+        }
+
+        .mat-form-field-outline-start {
+            border-radius: 24px 0 0  24px;
+        }
+
+        .mat-form-field-outline-start, .mat-form-field-outline-end {
+            min-width: 24px;
+        }
+
+        .mat-form-field-prefix, .mat-form-field-suffix {
+            top: .34em;
+        }
+
+    }
+
+    .mat-select-arrow-wrapper>.mat-select-arrow, .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+        color: transparent;
+    }
+}
+
+.custom-panel {
+    margin: 30px 0px;
+}

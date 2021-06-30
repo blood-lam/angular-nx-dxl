@@ -33,6 +33,22 @@
     "blood-e2e": {
       "tags": [],
       "implicitDependencies": ["blood"]
+    },
+    "xlsx-temp-data-access": {
+      "tags": ["scope:xlsx-temp-data-access", "dtype:data-access"],
+      "implicitDependencies": []
+    },
+    "xlsx-temp-feature": {
+      "tags": ["scope:xlsx-temp-feature", "dtype:feature"],
+      "implicitDependencies": []
+    },
+    "xlsx-temp-shell": {
+      "tags": ["scope:xlsx-temp-shell", "dtype:shell"],
+      "implicitDependencies": ["scope:xlsx-temp-data-access"]
+    },
+    "xlsx-temp-ui": {
+      "tags": ["scope:xlsx-temp-ui", "dtype:ui"],
+      "implicitDependencies": []
     }
   }
 }
