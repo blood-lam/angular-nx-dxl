@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "projects": {
+    "blood": {
+      "projectType": "application",
+      "root": "apps/blood",
+      "sourceRoot": "apps/blood/src",
+      "prefix": "dxl-angsp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/blood",
+            "index": "apps/blood/src/index.html",
+            "main": "apps/blood/src/main.ts",
+            "polyfills": "apps/blood/src/polyfills.ts",
+            "tsConfig": "apps/blood/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/blood/src/favicon.ico", "apps/blood/src/assets"],
+            "styles": ["apps/blood/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/blood/src/environments/environment.ts",
+                  "with": "apps/blood/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "blood:build:production"
+            },
+            "development": {
+              "browserTarget": "blood:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "blood:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/blood/src/**/*.ts",
+              "apps/blood/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/blood"],
+          "options": {
+            "jestConfig": "apps/blood/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "blood-e2e": {
+      "root": "apps/blood-e2e",
+      "sourceRoot": "apps/blood-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/blood-e2e/cypress.json",
+            "tsConfig": "apps/blood-e2e/tsconfig.e2e.json",
+            "devServerTarget": "blood:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "blood:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/blood-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "blood"
+}
