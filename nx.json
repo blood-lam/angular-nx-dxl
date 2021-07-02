@@ -44,7 +44,7 @@
     },
     "xlsx-temp-shell": {
       "tags": ["scope:xlsx-temp-shell", "dtype:shell"],
-      "implicitDependencies": ["scope:xlsx-temp-data-access"]
+      "implicitDependencies": []
     },
     "xlsx-temp-ui": {
       "tags": ["scope:xlsx-temp-ui", "dtype:ui"],

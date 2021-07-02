@@ -25,7 +25,8 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/xlsx-temp/ui/src/lib/scss"]
-            }
+            },
+            "allowedCommonJsDependencies": ["xlsx"]
           },
           "configurations": {
             "production": {

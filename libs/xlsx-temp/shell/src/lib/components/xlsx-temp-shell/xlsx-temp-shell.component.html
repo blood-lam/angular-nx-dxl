@@ -1,10 +1,15 @@
 <mat-form-field appearance="outline" class="special-formfield">
-  <mat-select disableOptionCentering panelClass="custom-panel" [value]="foods[0].value" (selectionChange)="selectedFood($event)">
+  <mat-select
+    disableOptionCentering
+    panelClass="custom-panel"
+    [value]="foods[0].value"
+    (selectionChange)="selectedFood($event)"
+  >
     <mat-option *ngFor="let food of foods" [value]="food.value">
       {{ food.viewValue }}
     </mat-option>
   </mat-select>
   <span matPrefix>
-    <mat-icon style="rgba(0,0,0,.54)">calendar_today</mat-icon>
+    <mat-icon>calendar_today</mat-icon>
   </span>
 </mat-form-field>

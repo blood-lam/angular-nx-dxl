@@ -1,31 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Food } from '@dxl-angsp/xlsx-temp/data-access';
 import * as XLSX from 'xlsx';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'dxl-angsp-xlsx-temp-shell',
   templateUrl: './xlsx-temp-shell.component.html',
   styleUrls: ['./xlsx-temp-shell.component.scss'],
 })
-export class XlsxTempShellComponent implements OnInit {
-  data: any[5][5] = [];
-  wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
-  fileName: string = 'SheetJS.xlsx';
-
-  foods: Food[] = [
+export class XlsxTempShellComponent implements OnDestroy {
+  private readonly ngUnsubscribe = new Subject<void>();
+  private readonly data: string[][] = [];
+  private readonly xlsxUrl =
+    'https://file-examples-com.github.io/uploads/2017/02/file_example_XLS_10.xls';
+  public readonly foods: Food[] = [
     { value: 'steak-0', viewValue: '7 ngày gần nhất' },
-    { value: 'pizza-1', viewValue: '1 tháng gần nhất' },
-    { value: 'tacos-2', viewValue: 'Tùy chỉnh' },
+    { value: 'aoa', viewValue: 'Generate template form array' },
+    { value: 'url', viewValue: 'Edit downloaded excel file from url' },
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {}
-
-  private exportXLSX(fileName: string = 'SheetJS'): void {
-    /* generate worksheet */
+  private exportXLSXFromAoA(filename = 'SheetJS'): void {
+    /**
+     * Initial data template.
+     */
     this.createTemplate(this.data);
+
+    /* generate worksheet */
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);
 
     /* generate workbook and add the worksheet */
@@ -33,44 +38,94 @@ export class XlsxTempShellComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `${fileName}.xlsx`);
+    XLSX.writeFile(wb, `${filename}.xlsx`);
   }
 
-  private createTemplate(data: any) {
-    data[1]=[, '                 THÔNG BÁO VỀ TÌNH TRẠNG GIA ĐÌNH']
+  private exportXLSXFromUrl(filename = 'SheetJS'): void {
+    this.http
+      .get(this.xlsxUrl, {
+        responseType: 'arraybuffer',
+      })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        const readOptions: XLSX.ParsingOptions = {
+          type: 'buffer',
+        };
+        const wb: XLSX.WorkBook = XLSX.read(value, readOptions);
+        const firstSheet: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[firstSheet];
 
-    data[3]=[, 'Nơi nhận     : ','Khối Quản trị nguồn nhân lực',]
-    data[4]=[, 'Người gửi        : ',,,'Số hiệu NV:',]
+        /**
+         * modify value in E4
+         */
+        ws['E4'].v = 'Greece';
 
-    data[7]=[, 'Tôi xin thông báo tình trạng gia đình của tôi như sau:']
+        // modify value if E4 is undefined / does not exists
+        // XLSX.utils.sheet_add_aoa(ws, [['Greece']], {origin: 'E4'});
 
-    data[8]=[, 'I - LẬP GIA ĐÌNH:']
-    data[9]=[, 'Họ và tên vợ/ chồng:']
-    data[10]=[, 'Ngày tháng năm sinh:']
-    data[11]=[, 'Nơi cư trú:']
-    data[12]=[, 'Cơ quan công tác:']
+        /* save to file */
+        XLSX.writeFile(wb, `${filename}.xls`);
+      });
+  }
 
-    data[14]=[, 'II - THÔNG TIN VỀ CON:']
-    data[15]=[, 'Họ và tên con:']
-    data[16]=[, 'Giới tính:']
-    data[17]=[, 'Ngày tháng năm sinh:']
-    data[19]=[, 'Họ và tên con:']
-    data[20]=[, 'Giới tính:']
-    data[21]=[, 'Ngày tháng năm sinh:']
+  /**
+   * Initial data for template.
+   *
+   * @param data a store object.
+   */
+  private createTemplate(data: string[][]): void {
+    data[1] = ['', '                 THÔNG BÁO VỀ TÌNH TRẠNG GIA ĐÌNH'];
 
-    data[22]=[, 'III - KHÁC (Độc thân, ly hôn..):']
+    data[3] = ['', 'Nơi nhận     : ', 'Khối Quản trị nguồn nhân lực'];
+    data[4] = ['', 'Người gửi        : ', '', '', 'Số hiệu NV:'];
 
-    data[27]=[, 'Tôi xin xác nhận thông tin trên là hoàn toàn đúng sự thật.']
+    data[7] = ['', 'Tôi xin thông báo tình trạng gia đình của tôi như sau:'];
 
-    data[29]=[,,,, 'Ngày           tháng           năm ']
+    data[8] = ['', 'I - LẬP GIA ĐÌNH:'];
+    data[9] = ['', 'Họ và tên vợ/ chồng:'];
+    data[10] = ['', 'Ngày tháng năm sinh:'];
+    data[11] = ['', 'Nơi cư trú:'];
+    data[12] = ['', 'Cơ quan công tác:'];
 
-    data[32]=[, 'Lưu ý: Khi có thay đổi về tình trạng gia đình đề nghị']
-    data[33]=[, 'các cán bộ, nhân viên cập nhật ngay thông tin với ']
-    data[34]=[, 'Khối Quản trị nguồn nhân lực.']
-    data[35]=[,,,, '(Ký xác nhận & ghi rõ họ tên)']
+    data[14] = ['', 'II - THÔNG TIN VỀ CON:'];
+    data[15] = ['', 'Họ và tên con:'];
+    data[16] = ['', 'Giới tính:'];
+    data[17] = ['', 'Ngày tháng năm sinh:'];
+    data[19] = ['', 'Họ và tên con:'];
+    data[20] = ['', 'Giới tính:'];
+    data[21] = ['', 'Ngày tháng năm sinh:'];
+
+    data[22] = ['', 'III - KHÁC (Độc thân, ly hôn..):'];
+
+    data[27] = [
+      '',
+      'Tôi xin xác nhận thông tin trên là hoàn toàn đúng sự thật.',
+    ];
+
+    data[29] = ['', '', '', '', 'Ngày           tháng           năm '];
+
+    data[32] = ['', 'Lưu ý: Khi có thay đổi về tình trạng gia đình đề nghị'];
+    data[33] = ['', 'các cán bộ, nhân viên cập nhật ngay thông tin với '];
+    data[34] = ['', 'Khối Quản trị nguồn nhân lực.'];
+    data[35] = ['', '', '', '', '(Ký xác nhận & ghi rõ họ tên)'];
   }
 
   public selectedFood({ value }: MatSelectChange): void {
-    this.exportXLSX(this.foods.find((food) => food.value == value)?.viewValue);
+    const filename = this.foods.find((food) => food.value == value)?.viewValue;
+    switch (value) {
+      case 'aoa':
+        this.exportXLSXFromAoA(filename);
+        break;
+      case 'url':
+        this.exportXLSXFromUrl(filename);
+        break;
+      default:
+        break;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

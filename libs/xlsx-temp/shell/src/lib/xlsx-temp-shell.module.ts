@@ -5,6 +5,7 @@ import { XlsxTempDataAccessModule } from '@dxl-angsp/xlsx-temp/data-access';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { XlsxTempShellComponent } from './components/xlsx-temp-shell/xlsx-temp-shell.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { XlsxTempShellComponent } from './components/xlsx-temp-shell/xlsx-temp-s
     ]),
     MatSelectModule,
     MatIconModule,
+    HttpClientModule,
   ],
   declarations: [XlsxTempShellComponent],
 })
