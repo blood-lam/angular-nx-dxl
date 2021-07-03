@@ -44,8 +44,6 @@ export class XlsxTempComponent {
     const firstSheet: string = wb.SheetNames[0];
     const ws: XLSX.WorkSheet = wb.Sheets[firstSheet];
 
-    console.log(ws['A2']);
-
     /**
      * modify value in E4
      */

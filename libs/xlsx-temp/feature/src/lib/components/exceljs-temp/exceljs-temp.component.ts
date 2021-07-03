@@ -13,14 +13,21 @@ export class ExceljsTempComponent {
   private async processXLSX(wb: ExcelJS.Workbook): Promise<void> {
     await wb.xlsx.load(this.buffer as ArrayBuffer);
     const ws = wb.getWorksheet(1);
-    console.log(ws.getCell('E6'));
+
+    /**
+     * Edit value at E6
+     */
     ws.getCell('E6').value = 'Greece';
+
     this.writeFile(wb);
   }
 
+  /**
+   * Write to a file.
+   *
+   * @param wb Current workbook.
+   */
   private async writeFile(wb: ExcelJS.Workbook): Promise<void> {
-    const ws = wb.getWorksheet(1);
-    console.log(ws.getCell('A1'));
     const buffer = await await wb.xlsx.writeBuffer({
       useStyles: true,
     });
@@ -29,7 +36,7 @@ export class ExceljsTempComponent {
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         type: 'application/vnd.ms-excel',
       }),
-      'exceljs-temp.xls'
+      'exceljs-temp.xlsx'
     );
   }
 
