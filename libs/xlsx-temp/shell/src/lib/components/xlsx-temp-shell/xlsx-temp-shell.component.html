@@ -1,15 +1,10 @@
-<mat-form-field appearance="outline" class="special-formfield">
-  <mat-select
-    disableOptionCentering
-    panelClass="custom-panel"
-    [value]="foods[0].value"
-    (selectionChange)="selectedFood($event)"
-  >
-    <mat-option *ngFor="let food of foods" [value]="food.value">
-      {{ food.viewValue }}
-    </mat-option>
-  </mat-select>
-  <span matPrefix>
-    <mat-icon>calendar_today</mat-icon>
-  </span>
-</mat-form-field>
+<h2>
+  <em>Reference &#8594; </em
+  ><a href="https://www.npmjs.com/package/xlsx">XLSX</a>
+</h2>
+<dxl-angsp-xlsx-temp [buffer]="bufferData$ | async"></dxl-angsp-xlsx-temp>
+<h2>
+  <em>Reference &#8594; </em
+  ><a href="https://www.npmjs.com/package/exceljs">ExcelJS</a>
+</h2>
+<dxl-angsp-exceljs-temp [buffer]="bufferData$ | async"></dxl-angsp-exceljs-temp>
